@@ -1,4 +1,5 @@
 ﻿using Entities;
+using PromotionEngine.Engine;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -48,20 +49,27 @@ namespace PromotionEngine
         }
         protected static void ShowTotalPrice()
         {
-
-        }
-
-        public static void GetItemsList()
-        {
             List<char> itemsList = new List<char>();
-            List<SKU> calculatedItemPrice = new List<SKU>();
-            Console.WriteLine("Enter your items among A, B, C, D");
-            //Test cases
+            itemsList.Add('A');
+            itemsList.Add('A');
             itemsList.Add('A');
             itemsList.Add('B');
             itemsList.Add('C');
-            //calculatedItemPrice = CalculateTotalAmount(itemsList);
+            IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
+            promotionEngine.Calculation(itemsList);
         }
+
+        //public static void GetItemsList()
+        //{
+        //    List<char> itemsList = new List<char>();
+        //    List<SKU> calculatedItemPrice = new List<SKU>();
+        //    Console.WriteLine("Enter your items among A, B, C, D");
+        //    //Test cases
+        //    itemsList.Add('A');
+        //    itemsList.Add('B');
+        //    itemsList.Add('C');
+        //    //calculatedItemPrice = CalculateTotalAmount(itemsList);
+        //}
 
     }
 

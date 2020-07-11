@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,5 +9,7 @@ namespace Services
     {
         void SeedItems();
         void SeedPromotions();
+        List<Promotion> GetAllActivePromotions();
+
     }
 }

@@ -1,13 +1,15 @@
 ﻿using Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DAL
 {
-    public class SKURepository
+    public class SKURepository: ISKURepository
     {
         List<SKU> itemList = new List<SKU>();
+        List<Promotion> promotionList;
         public void SeedSKU()
         {
             itemList.Add(new SKU { ID = 'A', Quantity = 1, Price = 50 });
@@ -18,10 +20,41 @@ namespace DAL
 
         public void SeedPromotions()
         {
-            itemList.Add(new SKU { ID = 'A', Quantity = 3, Price = 130 });
-            itemList.Add(new SKU { ID = 'B', Quantity = 2, Price = 45 });
-            itemList.Add(new SKU { ID = 'C', Quantity = 1, Price = 20 });
-            itemList.Add(new SKU { ID = 'D', Quantity = 1, Price = 15 });
+            promotionList = new List<Promotion>
+            {
+                new Promotion
+                {
+                    ID = 1,
+                    PromotionType = "Multi",
+                    DiscountPercentage = 0,
+                    SKUList = new List<SKU>() { new SKU { ID = 'A', Quantity = 3 } },
+                    DiscountPrice = 130,
+                    IsActive=true
+                },
+                new Promotion
+                {
+                    ID = 1,
+                    PromotionType = "Multi",
+                    DiscountPercentage = 0,
+                    SKUList = new List<SKU>() { new SKU { ID = 'B', Quantity = 2 } },
+                    DiscountPrice = 45,
+                    IsActive=true
+                },
+                new Promotion
+                {
+                    ID = 1,
+                    PromotionType = "Combo",
+                    DiscountPercentage = 0,
+                    SKUList = new List<SKU>() { new SKU { ID = 'C', Quantity = 1 },new SKU { ID = 'D', Quantity = 1 } },
+                    DiscountPrice = 30,
+                    IsActive=true
+                }
+            };
+        }
+
+        public List<Promotion> GetAllActivePromotions()
+        {
+            return promotionList.Where(p=>p.IsActive).ToList();
         }
     }
 }
