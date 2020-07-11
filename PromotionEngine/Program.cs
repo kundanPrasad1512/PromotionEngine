@@ -57,51 +57,71 @@ namespace PromotionEngine
         }
         protected static void ShowSelectedItems()
         {
-            var skuIdGroups = selectedSKUList.GroupBy(i => i.ToString()).ToArray();
-            foreach (var skuIds in skuIdGroups)
+            try
             {
-                Console.WriteLine("{0} * {1}",skuIds.Key, skuIds.Count());
+                var skuIdGroups = selectedSKUList.GroupBy(i => i.ToString()).ToArray();
+                foreach (var skuIds in skuIdGroups)
+                {
+                    Console.WriteLine("{0} * {1}", skuIds.Key, skuIds.Count());
+                }
+                UserAction();
             }
-            UserAction();
+            catch(Exception ex){
+                throw ex;
+            }
 
         }
         protected static void SelectItems()
         {
-            Console.WriteLine("Select space separated items among A,B,C,D");
-            string item = Console.ReadLine();
-            var selectedList = item.Split(" ");
-            var isValidEntry = true;
-            foreach (var selItem in selectedList)
+            try
             {
-                if (!string.IsNullOrEmpty(selItem))
+                Console.WriteLine("Select space separated items among A,B,C,D");
+                string item = Console.ReadLine();
+                var selectedList = item.Split(" ");
+                var isValidEntry = true;
+                foreach (var selItem in selectedList)
                 {
-                    SKU sku = _skuService.GetSKUByID(selItem.ToCharArray()[0]);
-                    if (sku != null)
+                    if (!string.IsNullOrEmpty(selItem))
                     {
-                        selectedSKUList.Add(selItem.ToUpper().ToCharArray()[0]);
-                    }
-                    else
-                    {
-                        isValidEntry = false;
-                        Console.WriteLine(selItem+" items are not valid item");
+                        SKU sku = _skuService.GetSKUByID(selItem.ToCharArray()[0]);
+                        if (sku != null)
+                        {
+                            selectedSKUList.Add(selItem.ToUpper().ToCharArray()[0]);
+                        }
+                        else
+                        {
+                            isValidEntry = false;
+                            Console.WriteLine(selItem + " items are not valid item");
+                        }
                     }
                 }
+                if (!isValidEntry)
+                {
+                    SelectItems();
+                }
+                else
+                {
+                    UserAction();
+                }
             }
-            if (!isValidEntry)
+            catch (Exception ex)
             {
-                SelectItems();
+                throw ex;
             }
-            else
-            {
-                UserAction();
-            }
-            
+
         }
         protected static void ShowTotalPrice()
         {
-            int total= _promotionEngine.Calculation(selectedSKUList);
-            Console.WriteLine("Total amount is :"+ total);
-            UserAction();
+            try
+            {
+                int total = _promotionEngine.Calculation(selectedSKUList);
+                Console.WriteLine("Total amount is :" + total);
+                UserAction();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
