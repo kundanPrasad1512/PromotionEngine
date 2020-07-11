@@ -15,9 +15,10 @@ namespace PromotionEngine
             _itemService = new SKUService();
             Console.WriteLine("Add Items");
             string action = Console.ReadLine();
+            IPromotionService promotionService = new PromotionService();
             ISKUService sKUService = new SKUService();
             sKUService.SeedSKU();
-            sKUService.SeedPromotions();
+            promotionService.SeedPromotions();
             switch (action)
             {
                 case "1":
@@ -44,7 +45,7 @@ namespace PromotionEngine
         {
             Console.WriteLine("Add Items");
             string action = Console.ReadLine();
-            _itemService.SeedPromotions();
+            //promotionService.SeedPromotions();
         }
         protected static void SelectItems()
         {
@@ -67,18 +68,6 @@ namespace PromotionEngine
             IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
             promotionEngine.Calculation(itemsList);
         }
-
-        //public static void GetItemsList()
-        //{
-        //    List<char> itemsList = new List<char>();
-        //    List<SKU> calculatedItemPrice = new List<SKU>();
-        //    Console.WriteLine("Enter your items among A, B, C, D");
-        //    //Test cases
-        //    itemsList.Add('A');
-        //    itemsList.Add('B');
-        //    itemsList.Add('C');
-        //    //calculatedItemPrice = CalculateTotalAmount(itemsList);
-        //}
 
     }
 

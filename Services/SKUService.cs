@@ -13,20 +13,14 @@ namespace Services
         {
             _skuRepository = new SKURepository();
         }
+
         public void SeedSKU()
         {
             _skuRepository.SeedSKU();
         }
-
-        public void SeedPromotions()
+        public SKU GetSKUByID(char SkuID)
         {
-            _skuRepository.SeedPromotions();
+            return _skuRepository.GetSKUByID(SkuID);
         }
-
-        public List<Promotion> GetAllActivePromotions()
-        {
-           return _skuRepository.GetAllActivePromotions();
-        }
-
     }
 }

@@ -8,8 +8,7 @@ namespace Services
     public interface ISKUService
     {
         void SeedSKU();
-        void SeedPromotions();
-        List<Promotion> GetAllActivePromotions();
+        SKU GetSKUByID(char SkuID);
 
     }
 }
