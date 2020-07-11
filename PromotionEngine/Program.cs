@@ -31,6 +31,7 @@ namespace PromotionEngine
             _promotionService = serviceProvider.GetService<IPromotionService>();
             _promotionService.SeedPromotions();
             _promotionEngine= serviceProvider.GetService<IPromotionRuleEngine>();
+            
             SelectItems();
         }
 
