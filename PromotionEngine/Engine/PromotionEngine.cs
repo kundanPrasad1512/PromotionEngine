@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace PromotionEngine.Engine
         {
 
         }
-        public int Calculation(List<Item> itemList)
+        public int Calculation(List<SKU> itemList)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services
 {
-    public interface IProductService
+    public interface ISKUService
     {
         void SeedItems();
         void SeedPromotions();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services
 {
-    public class ProductService : IProductService
+    public class SKUService : ISKUService
     {
         public void SeedItems()
         {

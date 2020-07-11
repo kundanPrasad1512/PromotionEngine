@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entities
 {
-    public class Item
+    public class SKU
     {
         public char ID { get; set; }
         public int Price { get; set; }
