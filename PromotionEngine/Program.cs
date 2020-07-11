@@ -3,71 +3,93 @@ using PromotionEngine.Engine;
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PromotionEngine
 {
     class Program
     {
         List<SKU> itemList = new List<SKU>();
-        static ISKUService _itemService;
+        static List<char> selectedSKUList = new List<char>();
+        static ISKUService _skuService;
+        static IPromotionService promotionService;
         static void Main(string[] args)
         {
-            _itemService = new SKUService();
-            Console.WriteLine("Add Items");
-            string action = Console.ReadLine();
-            IPromotionService promotionService = new PromotionService();
-            ISKUService sKUService = new SKUService();
-            sKUService.SeedSKU();
+            _skuService = new SKUService();
+            _skuService.SeedSKU();
+            promotionService = new PromotionService();
             promotionService.SeedPromotions();
+            SelectItems();
+        }
+
+        protected static void UserAction()
+        {
+            Console.WriteLine("===========================================================");
+            Console.WriteLine("Do you want to add more items? press 1");
+            Console.WriteLine("Do you want to see selected items ? press 2");
+            Console.WriteLine("Do you want to see total amount of selected items ? press 3");
+            string action = Console.ReadLine();
             switch (action)
             {
                 case "1":
-                    SeedSKU();
-                    break;
-                case "2":
-                    SeedItemsPromotions();
-                    break;
-                case "3":
                     SelectItems();
                     break;
-                case "4":
+                case "2":
+                    ShowSelectedItems(); 
+                    break;
+                case "3":
                     ShowTotalPrice();
                     break;
             }
         }
+        protected static void ShowSelectedItems()
+        {
+            var skuIdGroups = selectedSKUList.GroupBy(i => i.ToString()).ToArray();
+            foreach (var skuIds in skuIdGroups)
+            {
+                Console.WriteLine("{0} * {1}",skuIds.Key, skuIds.Count());
+            }
+            UserAction();
 
-        protected static void SeedSKU()
-        {
-            Console.WriteLine("Add Items");
-            int action = Console.Read();
-        }
-        protected static void SeedItemsPromotions()
-        {
-            Console.WriteLine("Add Items");
-            string action = Console.ReadLine();
-            //promotionService.SeedPromotions();
         }
         protected static void SelectItems()
         {
-
+            Console.WriteLine("Select space separated items among A,B,C,D");
+            string item = Console.ReadLine();
+            var selectedList = item.Split(" ");
+            var isValidEntry = true;
+            foreach (var selItem in selectedList)
+            {
+                if (!string.IsNullOrEmpty(selItem))
+                {
+                    SKU sku = _skuService.GetSKUByID(selItem.ToCharArray()[0]);
+                    if (sku != null)
+                    {
+                        selectedSKUList.Add(selItem.ToUpper().ToCharArray()[0]);
+                    }
+                    else
+                    {
+                        isValidEntry = false;
+                        Console.WriteLine(selItem+" items are not valid item");
+                    }
+                }
+            }
+            if (!isValidEntry)
+            {
+                SelectItems();
+            }
+            else
+            {
+                UserAction();
+            }
+            
         }
         protected static void ShowTotalPrice()
         {
-            List<char> itemsList = new List<char>();
-            itemsList.Add('A');
-            itemsList.Add('A');
-            itemsList.Add('A');
-            itemsList.Add('B');
-            itemsList.Add('B');
-            itemsList.Add('B');
-            itemsList.Add('B');
-            itemsList.Add('B');
-            itemsList.Add('C');
-            itemsList.Add('D');
             IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
-            int total=promotionEngine.Calculation(itemsList);
-            Console.WriteLine("Total Amount is :"+ total);
-            Console.ReadKey();
+            int total=promotionEngine.Calculation(selectedSKUList);
+            Console.WriteLine("Total amount is :"+ total);
+            UserAction();
         }
 
     }

@@ -9,10 +9,6 @@ namespace PromotionEngine.Engine
 {
     public class PromotionRuleEngine : IPromotionRuleEngine
     {
-        public PromotionRuleEngine()
-        {
-
-        }
         public int Calculation(List<char> skuIdList)
         {
             try
