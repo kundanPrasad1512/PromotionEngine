@@ -7,7 +7,7 @@ namespace Services
 {
     public interface ISKUService
     {
-        void SeedItems();
+        void SeedSKU();
         void SeedPromotions();
         List<Promotion> GetAllActivePromotions();
 

@@ -13,7 +13,7 @@ namespace Services
         {
             _skuRepository = new SKURepository();
         }
-        public void SeedItems()
+        public void SeedSKU()
         {
             _skuRepository.SeedSKU();
         }

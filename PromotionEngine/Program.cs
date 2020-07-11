@@ -15,10 +15,13 @@ namespace PromotionEngine
             _itemService = new SKUService();
             Console.WriteLine("Add Items");
             string action = Console.ReadLine();
+            ISKUService sKUService = new SKUService();
+            sKUService.SeedSKU();
+            sKUService.SeedPromotions();
             switch (action)
             {
                 case "1":
-                    SeedItems();
+                    SeedSKU();
                     break;
                 case "2":
                     SeedItemsPromotions();
@@ -32,7 +35,7 @@ namespace PromotionEngine
             }
         }
 
-        protected static void SeedItems()
+        protected static void SeedSKU()
         {
             Console.WriteLine("Add Items");
             int action = Console.Read();
@@ -53,6 +56,12 @@ namespace PromotionEngine
             itemsList.Add('A');
             itemsList.Add('A');
             itemsList.Add('A');
+            itemsList.Add('A');
+            itemsList.Add('A');
+            itemsList.Add('B');
+            itemsList.Add('B');
+            itemsList.Add('B');
+            itemsList.Add('B');
             itemsList.Add('B');
             itemsList.Add('C');
             IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
