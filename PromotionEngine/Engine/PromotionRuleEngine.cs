@@ -29,8 +29,8 @@ namespace PromotionEngine.Engine
                     List<Promotion> applicablePromoList = promotions.Where(p=> p.SKUList.Any(s=>s.ID.ToString() == skuIds.Key)).ToList();
                     SKUPriceBreakups finalPriceBreakup = new SKUPriceBreakups();
                     var selectedSKUCount = skuIds.Count();
-                   
-                    if (applicablePromoList.Count() > 0)
+                    bool isPriceAdded = finalPriceBreakups.Any(p => p.SKUID == skuIds.Key.ToCharArray()[0]);
+                    if (applicablePromoList.Count() > 0 && !isPriceAdded)
                     {
                         foreach (Promotion promotion in applicablePromoList)
                         {
@@ -67,7 +67,19 @@ namespace PromotionEngine.Engine
                                 }
                                 else if (promotion.PromotionType == "Combo")
                                 {
-                                    //List<Promotion> k = skuIds.Where(s =>s.).ToList();
+                                    Dictionary<char, int> skuCount = new Dictionary<char, int>();
+                                    foreach (SKU sku in promotion.SKUList)
+                                    {
+                                        int count = skuIdGroups.Where(s=>s.Key== sku.ID.ToString()).Count();
+                                        if (count>0)
+                                        {
+                                            skuCount.Add(sku.ID, count);
+                                        }
+                                        if (skuCount.Count() == promotion.SKUList.Count())
+                                        {
+
+                                        }
+                                    }
                                     break;
                                 }
 
@@ -78,7 +90,6 @@ namespace PromotionEngine.Engine
                     }
                     else
                     {
-                        bool isPriceAdded = finalPriceBreakups.Any(p => p.SKUID == skuIds.Key.ToCharArray()[0]);
                         if (!isPriceAdded)
                         {
                             SKU skuItem = skuService.GetSKUByID(skuIds.Key.ToCharArray()[0]);
