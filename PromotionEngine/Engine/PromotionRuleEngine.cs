@@ -75,11 +75,17 @@ namespace PromotionEngine.Engine
                                         {
                                             skuCount.Add(sku.ID, count);
                                         }
-                                        if (skuCount.Count() == promotion.SKUList.Count())
+                                    }
+
+                                    if (skuCount.Count() == promotion.SKUList.Count())
+                                    {
+                                        foreach (var sku in skuCount)
                                         {
 
                                         }
                                     }
+                                    
+                                    
                                     break;
                                 }
 
