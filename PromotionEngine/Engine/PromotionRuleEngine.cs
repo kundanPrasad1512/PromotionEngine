@@ -54,6 +54,7 @@ namespace PromotionEngine.Engine
                                             finalPriceBreakup.DiscountPrice = discountPrice;
                                             finalPriceBreakup.QuantityWithoutDiscount = withoutPromoCount;
                                             finalPriceBreakup.PriceWithoutDiscount = promotion.SKUList[0].Price;
+                                            finalPriceBreakups.Add(finalPriceBreakup);
                                             break;
                                         }
                                         else
@@ -61,9 +62,11 @@ namespace PromotionEngine.Engine
                                             finalPriceBreakup.SKUID = promotion.SKUList[0].ID;
                                             finalPriceBreakup.QuantityWithoutDiscount = withoutPromoCount;
                                             finalPriceBreakup.PriceWithoutDiscount = promotion.SKUList[0].Price;
+                                            finalPriceBreakups.Add(finalPriceBreakup);
                                             break;
                                         }
                                     }
+                                    
                                 }
                                 else if (promotion.PromotionType == "Combo")
                                 {
@@ -71,26 +74,49 @@ namespace PromotionEngine.Engine
                                     foreach (SKU sku in promotion.SKUList)
                                     {
                                         int count = skuIdGroups.Where(s=>s.Key== sku.ID.ToString()).Count();
-                                        if (count>0)
-                                        {
-                                            skuCount.Add(sku.ID, count);
-                                        }
+                                        skuCount.Add(sku.ID, count);
                                     }
 
-                                    if (skuCount.Count() == promotion.SKUList.Count())
+                                    int itemCount1 = skuCount.ElementAt(0).Value;
+                                    int itemCount2 = skuCount.ElementAt(1).Value;
+
+                                    if (itemCount1 !=0 && itemCount2 !=0)
                                     {
-                                        foreach (var sku in skuCount)
+                                        
+                                        if (itemCount1 < itemCount2)
                                         {
-
+                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(1).Key);
+                                            total += (itemCount1 * discountPrice) + (itemCount2- itemCount1)* skuItem.Price;
+                                            finalPriceBreakup.QuantityWithDiscount = itemCount1;
+                                            finalPriceBreakup.DiscountPrice = discountPrice;
+                                        }
+                                        else
+                                        {
+                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(0).Key);
+                                            total += (itemCount2 * discountPrice) + (itemCount1 - itemCount2) * skuItem.Price;
+                                            finalPriceBreakup.QuantityWithDiscount = itemCount1;
+                                            finalPriceBreakup.DiscountPrice = discountPrice;
+                                        }
+                                        finalPriceBreakup.SKUID = skuCount.ElementAt(0).Key;
+                                        finalPriceBreakups.Add(finalPriceBreakup);
+                                        finalPriceBreakup.SKUID = skuCount.ElementAt(1).Key;
+                                        finalPriceBreakups.Add(finalPriceBreakup);
+                                    }
+                                    else
+                                    {
+                                        if (itemCount1 >0)
+                                        {
+                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(0).Key);
+                                            total += itemCount1 * skuItem.Price;
+                                        }
+                                        else
+                                        {
+                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(1).Key);
+                                            total += itemCount2 * skuItem.Price;
                                         }
                                     }
-                                    
-                                    
                                     break;
                                 }
-
-                                finalPriceBreakup.Total = total;
-                                finalPriceBreakups.Add(finalPriceBreakup);
                             }
                         }
                     }

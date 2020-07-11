@@ -9,7 +9,7 @@ namespace PromotionEngine
     class Program
     {
         List<SKU> itemList = new List<SKU>();
-        private static ISKUService _itemService;
+        static ISKUService _itemService;
         static void Main(string[] args)
         {
             _itemService = new SKUService();
@@ -57,16 +57,17 @@ namespace PromotionEngine
             itemsList.Add('A');
             itemsList.Add('A');
             itemsList.Add('A');
-            itemsList.Add('A');
-            itemsList.Add('A');
             itemsList.Add('B');
             itemsList.Add('B');
             itemsList.Add('B');
             itemsList.Add('B');
             itemsList.Add('B');
             itemsList.Add('C');
+            itemsList.Add('D');
             IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
-            promotionEngine.Calculation(itemsList);
+            int total=promotionEngine.Calculation(itemsList);
+            Console.WriteLine("Total Amount is :"+ total);
+            Console.ReadKey();
         }
 
     }
