@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using DAL;
+using Entities;
+using Microsoft.Extensions.DependencyInjection;
 using PromotionEngine.Engine;
 using Services;
 using System;
@@ -12,13 +14,23 @@ namespace PromotionEngine
         List<SKU> itemList = new List<SKU>();
         static List<char> selectedSKUList = new List<char>();
         static ISKUService _skuService;
-        static IPromotionService promotionService;
+        static IPromotionService _promotionService;
+        static IPromotionRuleEngine _promotionEngine;
         static void Main(string[] args)
         {
-            _skuService = new SKUService();
+            var serviceProvider = new ServiceCollection()
+            .AddTransient<IPromotionService, PromotionService>()
+            .AddTransient<ISKUService, SKUService>()
+            .AddTransient<ISKURepository, SKURepository>()
+            .AddTransient<IPromotionRepository, PromotionRepository>()
+            .AddTransient<IPromotionRuleEngine, PromotionRuleEngine>()
+            .BuildServiceProvider();
+
+            _skuService = serviceProvider.GetService<ISKUService>();
             _skuService.SeedSKU();
-            promotionService = new PromotionService();
-            promotionService.SeedPromotions();
+            _promotionService = serviceProvider.GetService<IPromotionService>();
+            _promotionService.SeedPromotions();
+            _promotionEngine= serviceProvider.GetService<IPromotionRuleEngine>();
             SelectItems();
         }
 
@@ -86,8 +98,7 @@ namespace PromotionEngine
         }
         protected static void ShowTotalPrice()
         {
-            IPromotionRuleEngine promotionEngine = new PromotionRuleEngine();
-            int total=promotionEngine.Calculation(selectedSKUList);
+            int total= _promotionEngine.Calculation(selectedSKUList);
             Console.WriteLine("Total amount is :"+ total);
             UserAction();
         }

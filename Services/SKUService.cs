@@ -9,9 +9,9 @@ namespace Services
     public class SKUService : ISKUService
     {
         ISKURepository _skuRepository;
-        public SKUService()
+        public SKUService(ISKURepository skuRepository)
         {
-            _skuRepository = new SKURepository();
+            _skuRepository = skuRepository;
         }
 
         public void SeedSKU()

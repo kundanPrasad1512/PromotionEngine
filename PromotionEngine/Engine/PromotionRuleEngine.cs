@@ -9,14 +9,19 @@ namespace PromotionEngine.Engine
 {
     public class PromotionRuleEngine : IPromotionRuleEngine
     {
+        IPromotionService _promotionService;
+        ISKUService _skuService;
+        public PromotionRuleEngine(IPromotionService promotionService, ISKUService skuService)
+        {
+            _promotionService = promotionService;
+            _skuService = skuService;
+        }
         public int Calculation(List<char> skuIdList)
         {
             try
             {
-                IPromotionService promotionService = new PromotionService();
-                ISKUService skuService = new SKUService();
                 List<SKUPriceBreakups> finalPriceBreakups = new List<SKUPriceBreakups>();
-                List<Promotion> promotions = promotionService.GetAllActivePromotions();
+                List<Promotion> promotions = _promotionService.GetAllActivePromotions();
                 var skuIdGroups = skuIdList.GroupBy(i => i.ToString()).ToArray();
                 int total = 0;
 
@@ -81,14 +86,14 @@ namespace PromotionEngine.Engine
                                         
                                         if (itemCount1 < itemCount2)
                                         {
-                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(1).Key);
+                                            SKU skuItem = _skuService.GetSKUByID(skuCount.ElementAt(1).Key);
                                             total += (itemCount1 * discountPrice) + (itemCount2- itemCount1)* skuItem.Price;
                                             finalPriceBreakup.QuantityWithDiscount = itemCount1;
                                             finalPriceBreakup.DiscountPrice = discountPrice;
                                         }
                                         else
                                         {
-                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(0).Key);
+                                            SKU skuItem = _skuService.GetSKUByID(skuCount.ElementAt(0).Key);
                                             total += (itemCount2 * discountPrice) + (itemCount1 - itemCount2) * skuItem.Price;
                                             finalPriceBreakup.QuantityWithDiscount = itemCount1;
                                             finalPriceBreakup.DiscountPrice = discountPrice;
@@ -102,12 +107,12 @@ namespace PromotionEngine.Engine
                                     {
                                         if (itemCount1 >0)
                                         {
-                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(0).Key);
+                                            SKU skuItem = _skuService.GetSKUByID(skuCount.ElementAt(0).Key);
                                             total += itemCount1 * skuItem.Price;
                                         }
                                         else
                                         {
-                                            SKU skuItem = skuService.GetSKUByID(skuCount.ElementAt(1).Key);
+                                            SKU skuItem = _skuService.GetSKUByID(skuCount.ElementAt(1).Key);
                                             total += itemCount2 * skuItem.Price;
                                         }
                                     }
@@ -120,7 +125,7 @@ namespace PromotionEngine.Engine
                     {
                         if (!isPriceAdded)
                         {
-                            SKU skuItem = skuService.GetSKUByID(skuIds.Key.ToCharArray()[0]);
+                            SKU skuItem = _skuService.GetSKUByID(skuIds.Key.ToCharArray()[0]);
                             total += skuItem.Price;
                             finalPriceBreakup.SKUID =skuIds.Key.ToCharArray()[0];
                             finalPriceBreakup.QuantityWithoutDiscount = selectedSKUCount;

@@ -8,20 +8,20 @@ namespace Services
 {
     public class PromotionService: IPromotionService
     {
-        IPromotionRepository promotionRepository;
-        public PromotionService()
+        IPromotionRepository _promotionRepository;
+        public PromotionService(IPromotionRepository promotionRepository)
         {
-            promotionRepository = new PromotionRepository();
+            _promotionRepository = promotionRepository;
         }
 
         public void SeedPromotions()
         {
-            promotionRepository.SeedPromotions();
+            _promotionRepository.SeedPromotions();
         }
 
         public List<Promotion> GetAllActivePromotions()
         {
-            return promotionRepository.GetAllActivePromotions();
+            return _promotionRepository.GetAllActivePromotions();
         }
 
     }

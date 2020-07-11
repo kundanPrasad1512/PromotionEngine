@@ -8,10 +8,10 @@ namespace DAL
     public class PromotionRepository : IPromotionRepository
     {
         static List<Promotion> promotionList;
-        ISKURepository skuRepository;
-        public PromotionRepository()
+        ISKURepository _skuRepository;
+        public PromotionRepository(ISKURepository skuRepository)
         {
-            skuRepository = new SKURepository();
+            _skuRepository = skuRepository;
         }
         public void SeedPromotions()
         {
@@ -22,7 +22,7 @@ namespace DAL
                     ID = 1,
                     PromotionType = "Multi",
                     DiscountPercentage = 0,
-                    SKUList = new List<SKU>() { new SKU { ID = 'A', Quantity = 3,Price = skuRepository.GetSKUByID('A').Price} },
+                    SKUList = new List<SKU>() { new SKU { ID = 'A', Quantity = 3,Price = _skuRepository.GetSKUByID('A').Price} },
                     DiscountPrice = 130,
                     IsActive=true
                 },
@@ -31,7 +31,7 @@ namespace DAL
                     ID = 1,
                     PromotionType = "Multi",
                     DiscountPercentage = 0,
-                    SKUList = new List<SKU>() { new SKU { ID = 'B', Quantity = 2, Price = skuRepository.GetSKUByID('B').Price } },
+                    SKUList = new List<SKU>() { new SKU { ID = 'B', Quantity = 2, Price = _skuRepository.GetSKUByID('B').Price } },
                     DiscountPrice = 45,
                     IsActive=true
                 },
@@ -40,7 +40,7 @@ namespace DAL
                     ID = 1,
                     PromotionType = "Combo",
                     DiscountPercentage = 0,
-                    SKUList = new List<SKU>() { new SKU { ID = 'C', Quantity = 1, Price = skuRepository.GetSKUByID('C').Price },new SKU { ID = 'D', Quantity = 1, Price = skuRepository.GetSKUByID('D').Price } },
+                    SKUList = new List<SKU>() { new SKU { ID = 'C', Quantity = 1, Price = _skuRepository.GetSKUByID('C').Price },new SKU { ID = 'D', Quantity = 1, Price = _skuRepository.GetSKUByID('D').Price } },
                     DiscountPrice = 30,
                     IsActive=true
                 }
