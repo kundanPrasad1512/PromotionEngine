@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DAL;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using PromotionEngine.Engine;
 using Services;
@@ -14,32 +15,50 @@ namespace PromotionEngineUnitTests
         IPromotionRuleEngine _promotionRuleEngine;
         IPromotionService _promotionService;
         ISKUService _skuService;
-        public PromotionEngineTests()
+        private ServiceProvider serviceProvider { get; set; }
+
+        [SetUp]
+        public void SetUp()
         {
-            _promotionRuleEngine = new PromotionRuleEngine(_promotionService, _skuService);
+            var services = new ServiceCollection();
+            services.AddTransient<IPromotionRuleEngine, PromotionRuleEngine>();
+            services.AddTransient<IPromotionService, PromotionService>();
+            services.AddTransient<ISKUService, SKUService>();
+            services.AddTransient<ISKURepository, SKURepository>();
+            services.AddTransient<IPromotionRepository, PromotionRepository>();
+            services.AddTransient<IPromotionRuleEngine, PromotionRuleEngine>();
+            serviceProvider = services.BuildServiceProvider();
+
+            _skuService = serviceProvider.GetService<ISKUService>();
+            _skuService.SeedSKU();
+            _promotionService = serviceProvider.GetService<IPromotionService>();
+            _promotionService.SeedPromotions();
         }
 
         [Test]
-        public void GetTotalPrice_ScenarioA()
+        public void GetTotalPrice_SenarioA()
         {
+            var promotionEngineService = serviceProvider.GetService<IPromotionRuleEngine>();
             List<char> inputs = new List<char>() {'A','B','C' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = promotionEngineService.Calculation(inputs);
             int expectedResult = 100;
             Assert.AreEqual(actualResult, expectedResult);
         }
         [Test]
-        public void GetTotalPrice_ScenarioB()
+        public void GetTotalPrice_SenarioB()
         {
+            var promotionEngineService = serviceProvider.GetService<IPromotionRuleEngine>();
             List<char> inputs = new List<char>() { 'A', 'A', 'B','C','A','B','A','B','A','B','B' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = promotionEngineService.Calculation(inputs);
             int expectedResult = 370;
             Assert.AreEqual(actualResult, expectedResult);
         }
         [Test]
-        public void GetTotalPrice_ScenarioC()
+        public void GetTotalPrice_SenarioC()
         {
+            var promotionEngineService = serviceProvider.GetService<IPromotionRuleEngine>();
             List<char> inputs = new List<char>() { 'A', 'A', 'B', 'C', 'B', 'A', 'B', 'B', 'B','D' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = promotionEngineService.Calculation(inputs);
             int expectedResult = 280;
             Assert.AreEqual(actualResult, expectedResult);
         }

@@ -16,7 +16,7 @@ namespace PromotionEngine.Engine
             _promotionService = promotionService;
             _skuService = skuService;
         }
-        public int Calculation(List<char> skuIdList)
+        public virtual int Calculation(List<char> skuIdList)
         {
             try
             {
@@ -66,6 +66,10 @@ namespace PromotionEngine.Engine
                                             finalPriceBreakups.Add(finalPriceBreakup);
                                             break;
                                         }
+                                    }
+                                    else
+                                    {
+                                        total += (selectedSKUCount * promotion.SKUList[0].Price);
                                     }
                                     
                                 }
