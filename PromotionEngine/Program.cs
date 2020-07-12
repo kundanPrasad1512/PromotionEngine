@@ -75,6 +75,7 @@ namespace PromotionEngine
         {
             try
             {
+                Console.WriteLine();
                 Console.WriteLine("Select space separated items among A,B,C,D");
                 string item = Console.ReadLine();
                 var selectedList = item.Split(" ");
@@ -91,7 +92,7 @@ namespace PromotionEngine
                         else
                         {
                             isValidEntry = false;
-                            Console.WriteLine(selItem + " items are not valid item");
+                            Console.WriteLine(selItem + " is not valid item");
                         }
                     }
                 }

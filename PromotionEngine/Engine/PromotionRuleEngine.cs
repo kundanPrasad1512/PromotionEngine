@@ -70,6 +70,10 @@ namespace PromotionEngine.Engine
                                     else
                                     {
                                         total += (selectedSKUCount * promotion.SKUList[0].Price);
+                                        finalPriceBreakup.SKUID = promotion.SKUList[0].ID;
+                                        finalPriceBreakup.QuantityWithoutDiscount = selectedSKUCount;
+                                        finalPriceBreakup.PriceWithoutDiscount = promotion.SKUList[0].Price;
+                                        finalPriceBreakups.Add(finalPriceBreakup);
                                     }
                                     
                                 }
