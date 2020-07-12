@@ -40,25 +40,25 @@ namespace PromotionEngineUnitTests
         public void GetTotalPrice_SenarioA()
         {
             List<char> inputs = new List<char>() {'A','B','C' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = _promotionRuleEngine.CalculateTotalPrice(inputs);
             int expectedResult = 100;
-            Assert.AreEqual(actualResult, expectedResult);
+            Assert.AreEqual(expectedResult, actualResult);
         }
         [Test]
         public void GetTotalPrice_SenarioB()
         {
             List<char> inputs = new List<char>() { 'A', 'A', 'B','C','A','B','A','B','A','B','B' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = _promotionRuleEngine.CalculateTotalPrice(inputs);
             int expectedResult = 370;
-            Assert.AreEqual(actualResult, expectedResult);
+            Assert.AreEqual(expectedResult, actualResult);
         }
         [Test]
         public void GetTotalPrice_SenarioC()
         {
             List<char> inputs = new List<char>() { 'A', 'A', 'B', 'C', 'B', 'A', 'B', 'B', 'B','D' };
-            int actualResult = _promotionRuleEngine.Calculation(inputs);
+            int actualResult = _promotionRuleEngine.CalculateTotalPrice(inputs);
             int expectedResult = 280;
-            Assert.AreEqual(actualResult, expectedResult);
+            Assert.AreEqual(expectedResult, actualResult);
         }
     }
 }

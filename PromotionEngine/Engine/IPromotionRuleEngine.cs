@@ -7,6 +7,6 @@ namespace PromotionEngine.Engine
 {
     public interface IPromotionRuleEngine
     {
-        int Calculation(List<char> itemList);
+        int CalculateTotalPrice(List<char> itemList);
     }
 }

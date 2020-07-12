@@ -11,6 +11,5 @@ namespace Entities
         public int QuantityWithoutDiscount { get; set; }
         public int QuantityWithDiscount { get; set; }
         public int DiscountPrice { get; set; }
-        public int Total { get; set; }
     }
 }

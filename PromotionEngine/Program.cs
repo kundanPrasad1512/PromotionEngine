@@ -115,7 +115,7 @@ namespace PromotionEngine
         {
             try
             {
-                int total = _promotionEngine.Calculation(selectedSKUList);
+                int total = _promotionEngine.CalculateTotalPrice(selectedSKUList);
                 Console.WriteLine("Total amount :" + total);
                 UserAction();
             }
