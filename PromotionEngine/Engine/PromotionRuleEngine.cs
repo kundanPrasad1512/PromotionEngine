@@ -17,6 +17,12 @@ namespace PromotionEngine.Engine
             _promotionService = promotionService;
             _skuService = skuService;
         }
+
+        /// <summary>
+        /// This method returns final price after calculation based on all active promotions
+        /// </summary>
+        /// <param name="skuIdList">Input list of items</param>
+        /// <returns>total price</returns>
         public int CalculateTotalPrice(List<char> skuIdList)
         {
             try
@@ -73,6 +79,12 @@ namespace PromotionEngine.Engine
             }
         }
 
+        /// <summary>
+        /// This method returns total price after calculation based on all active promotions for multiple items of same type
+        /// </summary>
+        /// <param name="promotion">Promotion object</param>
+        /// <param name="selectedSKUCount">Total count of selected items</param>
+        /// <returns>total price for multi item of same type</returns>
         public int CalculatePriceMultiItemPromo(Promotion promotion, int selectedSKUCount)
         {
             try
@@ -99,6 +111,14 @@ namespace PromotionEngine.Engine
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// This method returns total price after calculation based on all active promotions for combo items
+        /// </summary>
+        /// <param name="promotion">Promotion object</param>
+        /// <param name="selectedSKUCount">Total count of selected items</param>
+        /// /// <param name="skuIdGroups">Grouped selected items</param>
+        /// <returns>total price for combo type promotion </returns>
         public int CalculatePriceComboItemPromo(Promotion promotion, int selectedSKUCount,IEnumerable<IGrouping<string, char>> skuIdGroups)
         {
             try
