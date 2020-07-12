@@ -16,7 +16,7 @@ namespace PromotionEngine.Engine
             _promotionService = promotionService;
             _skuService = skuService;
         }
-        public virtual int Calculation(List<char> skuIdList)
+        public int Calculation(List<char> skuIdList)
         {
             try
             {

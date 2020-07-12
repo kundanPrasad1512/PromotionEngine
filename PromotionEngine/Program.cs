@@ -116,7 +116,7 @@ namespace PromotionEngine
             try
             {
                 int total = _promotionEngine.Calculation(selectedSKUList);
-                Console.WriteLine("Total amount is :" + total);
+                Console.WriteLine("Total amount :" + total);
                 UserAction();
             }
             catch (Exception ex)
